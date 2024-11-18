@@ -26,6 +26,15 @@ document.getElementById("experiment-form").addEventListener("submit", function(e
         return;
     }
 
+    // Clear previous images
+    const datasetImg = document.getElementById("dataset-img");
+    const parametersImg = document.getElementById("parameters-img");
+
+    datasetImg.style.display = "none";
+    parametersImg.style.display = "none";
+    datasetImg.src = "";
+    parametersImg.src = "";
+
     // If all validations pass, submit the form
     fetch("/run_experiment", {
         method: "POST",
@@ -40,15 +49,15 @@ document.getElementById("experiment-form").addEventListener("submit", function(e
         const resultsDiv = document.getElementById("results");
         resultsDiv.style.display = "block";
 
-        const datasetImg = document.getElementById("dataset-img");
+        const timestamp = new Date().getTime(); // To prevent caching
+
         if (data.dataset_img) {
-            datasetImg.src = `/${data.dataset_img}`;
+            datasetImg.src = `/${data.dataset_img}?t=${timestamp}`;
             datasetImg.style.display = "block";
         }
 
-        const parametersImg = document.getElementById("parameters-img");
         if (data.parameters_img) {
-            parametersImg.src = `/${data.parameters_img}`;
+            parametersImg.src = `/${data.parameters_img}?t=${timestamp}`;
             parametersImg.style.display = "block";
         }
     })

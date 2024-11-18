@@ -15,6 +15,15 @@ def run_experiment():
     start = float(request.json['start'])
     end = float(request.json['end'])
     step_num = int(request.json['step_num'])
+    
+    result_dir = "results"
+    if os.path.exists(result_dir):
+        for filename in os.listdir(result_dir):
+            file_path = os.path.join(result_dir, filename)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+    else:
+        os.makedirs(result_dir)
 
     # Run the experiment with the provided parameters
     do_experiments(start, end, step_num)
